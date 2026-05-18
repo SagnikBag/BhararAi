@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import { sendEmail } from "../services/mail.service.js";
 
 export async function register(req,res){
 
@@ -22,6 +23,24 @@ export async function register(req,res){
     const user = await userModel.create({
         username,
         email,
-        password
+        password:password
+    })
+
+    await sendEmail({
+        to: email,
+        subject: "Welcome to BHARATAI",
+        html: `<h1>Welcome to BHARATAI, ${username}!</h1>
+        <p>Thank you for registering with us. We're excited to have you on board.</p>
+        <p>Best regards,<br/>The BHARATAI Team</p>`
+    })
+
+    res.status(201).json({
+        message:"User registered successfully",
+        success: true,
+        user:{
+            id:user._id,
+            username:user.username,
+            email:user.email
+        }
     })
 }
