@@ -2,6 +2,12 @@ import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../services/mail.service.js";
 
+
+
+// @desc Register a new user
+// @route POST /api/auth/register
+// @access Public 
+// @body { username, email, password }
 export async function register(req,res){
 
     const {username,email,password} = req.body;
@@ -10,6 +16,7 @@ export async function register(req,res){
         $or:[
             {email},
             {username}
+            
         ]
     })
     if(isUserAlreadyExists){
@@ -36,7 +43,7 @@ export async function register(req,res){
         html: `<h1>Welcome to BHARATAI, ${username}!</h1>
         <p>Thank you for registering with us. We're excited to have you on board.</p>
         <p>Please click on the link below to verify your email address:</p>
-        <a href="http://localhost:3000/verify-email?token=${emailVeificationToken}">Verify Email</a>
+        <a href="http://localhost:3000/api/auth/verify-email?token=${emailVeificationToken}">Verify Email</a>
 
         <p>Best regards,<br/>The BHARATAI Team</p>`
     })
@@ -52,26 +59,54 @@ export async function register(req,res){
     })
 }
 
+export async function login(req,res){
+    const {email,password} = req.body;
+
+    const user = await userModel.findOne({})
+
+    
+}
+
+// @desc Verify user's email address
+// @route GET /api/auth/verify-email?token=
+// @access Public
+// @query { token }
 export async function verifyEmail(req,res){
     const {token} = req.query;
 
-    const decoded = jwt.verify(token.process.env.JWT_SECRET);
+    try{
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    
+
 
     const user = await userModel.findOne({email: decoded.email});
 
     if(!user){
         return res.status(400).json({
             message:'Invalid token',
-            success: false,
+            success: false, 
             err:"User not found"
         })
     }
     user.verified = true;
     await user.save();
 
-    res.sendHtml(`<h1>Email verified successfully</h1>
-        <p>Your email has been verified successfully. You can now log in to your account.</p>
-        `)
+    const html = 
+    `<h1>Email Verified Successfully</h1>
+    <p>Thank you for verifying your email address. Your account is now active.</p>
+    <p>You can now log in to your account and start using our services.</p>
+    <p>Best regards,<br/>The BHARATAI Team</p> 
+    <a href="http://localhost:3000/login">Login to BHARATAI</a>`
 
+   return res.send(html)
+}catch(err){
+        return res.status(400).json({
+            message:"Invalid token",
+            success: false,
+            err: err.message
+        })
+    }
 
 }
+
