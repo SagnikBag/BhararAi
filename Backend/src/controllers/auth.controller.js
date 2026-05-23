@@ -113,6 +113,11 @@ export async function login(req,res){
     })
 }
 
+// @desc Get current logged in user
+// @route GET /api/auth/me
+// @access Private
+// @body { token }
+
 export async function getMe(req,res){
     const userId = req.user.id;
 
