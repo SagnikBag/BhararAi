@@ -6,7 +6,7 @@ const model = new ChatGoogleGenerativeAI({
 });
 
 export async function testAi(){
-    model.invoke("What is the capital of India?")
+    model.invoke("what is capital of india?")
     .then((response)=>{
         console.log(response.text);
     })
