@@ -1,93 +1,98 @@
 import React, { useState } from 'react'
-import Navigation from '../components/Navigation'
+import { Link, useNavigate } from 'react-router'
+import { useAuth } from '../hook/useAuth'
+import { useSelector } from 'react-redux'
+import { Navigate } from 'react-router'
+
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  })
+    const [ email, setEmail ] = useState('')
+    const [ password, setPassword ] = useState('')
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }))
-  }
+    const user = useSelector(state => state.auth.user)
+    const loading = useSelector(state => state.auth.loading)
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Login Data:', formData)
-    // Add your login API call here
-  }
+    const { handleLogin } = useAuth()
 
-  return (
-    <>
-      <Navigation />
-      <div className="min-h-[calc(100vh-64px)] bg-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-gray-800 rounded-lg shadow-2xl p-8">
-          <h1 className="text-4xl font-bold text-[#31b8c6] mb-2 text-center">
-            Login
-          </h1>
-          <p className="text-gray-400 text-center mb-8">Welcome back</p>
+    const navigate = useNavigate()
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#31b8c6] focus:ring-2 focus:ring-[#31b8c6] focus:ring-opacity-50 transition"
-                required
-              />
+    const submitForm = async (event) => {
+        event.preventDefault()
+
+        const payload = {
+            email,
+            password,
+        }
+
+        await handleLogin(payload)
+        navigate("/")
+
+    }
+
+    if(!loading && user){
+        return <Navigate to="/" replace />
+    }
+
+    return (
+        <section className="min-h-screen bg-zinc-950 px-4 py-10 text-zinc-100 sm:px-6 lg:px-8">
+            <div className="mx-auto flex min-h-[85vh] w-full max-w-5xl items-center justify-center">
+                <div className="w-full max-w-md rounded-2xl border border-[#31b8c6]/40 bg-zinc-900/70 p-8 shadow-2xl shadow-black/50 backdrop-blur">
+                    <h1 className="text-3xl font-bold text-[#31b8c6]">
+                        Welcome Back
+                    </h1>
+                    <p className="mt-2 text-sm text-zinc-300">
+                        Sign in with your email and password.
+                    </p>
+
+                    <form onSubmit={submitForm} className="mt-8 space-y-5">
+                        <div>
+                            <label htmlFor="email" className="mb-2 block text-sm font-medium text-zinc-200">
+                                Email
+                            </label>
+                            <input
+                                id="email"
+                                type="email"
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                                placeholder="you@example.com"
+                                required
+                                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:border-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="password" className="mb-2 block text-sm font-medium text-zinc-200">
+                                Password
+                            </label>
+                            <input
+                                id="password"
+                                type="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                placeholder="Enter your password"
+                                required
+                                className="w-full rounded-lg border border-zinc-700 bg-zinc-950/80 px-4 py-3 text-zinc-100 outline-none ring-0 transition focus:border-[#31b8c6] focus:shadow-[0_0_0_3px_rgba(49,184,198,0.25)]"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="w-full rounded-lg bg-[#31b8c6] px-4 py-3 font-semibold text-zinc-950 transition hover:bg-[#45c7d4] focus:outline-none focus:shadow-[0_0_0_3px_rgba(49,184,198,0.35)]"
+                        >
+                            Login
+                        </button>
+                    </form>
+
+                    <p className="mt-6 text-center text-sm text-zinc-300">
+                        Don&apos;t have an account?{' '}
+                        <Link to="/register" className="font-semibold text-[#31b8c6] transition hover:text-[#45c7d4]">
+                            Register
+                        </Link>
+                    </p>
+                </div>
             </div>
-
-            {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Enter your password"
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#31b8c6] focus:ring-2 focus:ring-[#31b8c6] focus:ring-opacity-50 transition"
-                required
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-[#31b8c6] hover:bg-[#29a3af] text-white font-semibold py-3 rounded-lg transition transform hover:scale-105 duration-200"
-            >
-              Login
-            </button>
-          </form>
-
-          {/* Footer */}
-          <p className="text-center text-gray-400 mt-6">
-            Don't have an account?{' '}
-            <a href="/register" className="text-[#31b8c6] hover:text-[#29a3af] font-medium transition">
-              Register here
-            </a>
-          </p>
-        </div>
-      </div>
-      </div>
-    </>
-  )
+        </section>
+    )
 }
 
 export default Login
