@@ -4,6 +4,7 @@ import Register from '../features/auth/pages/Register';
 import Protected from '../features/auth/components/Protected';
 import DashBoard from '../features/chat/pages/dashboard';
 
+
 export const router = createBrowserRouter([
     
     {
@@ -19,5 +20,9 @@ export const router = createBrowserRouter([
         element: <Protected>
             <DashBoard/>
         </Protected>,
+    },
+    {
+        path:'/dashboard',
+        element: <Navigate to='/' replace />
     }
 ])
