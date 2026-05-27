@@ -1,7 +1,7 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
 
-const dashboard = () => {
+const Dashboard = () => {
 
   const {user} = useSelector((state) => state.auth)
   console.log(user)
@@ -13,4 +13,4 @@ const dashboard = () => {
   )
 }
 
-export default dashboard
+export default Dashboard
