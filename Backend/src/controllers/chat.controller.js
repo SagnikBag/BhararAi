@@ -1,6 +1,15 @@
+import { AIMessage } from 'langchain';
+import {generateResponse} from '../services/ai.service.js';
+
+
+
 export async function sendMessage(req,res){
 
-    const {message} = req.body;
+    const { message } = req.body;
 
-    console.log("Received message:", message);
+    const result =  await generateResponse(message);
+
+    res.json({
+        AIMessage: result
+    })
 }

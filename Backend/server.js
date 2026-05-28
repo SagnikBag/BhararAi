@@ -2,11 +2,11 @@ import  'dotenv/config';
 import app from './src/app.js';
 import http from 'http';
 import connectDB from './src/config/database.js';
-import {genarateResponse} from './src/services/ai.service.js';
+import {generateResponse} from './src/services/ai.service.js';
 import { initSocket } from './src/sockets/server.socket.js';
 const PORT = process.env.PORT ||3000;
 
-genarateResponse();
+generateResponse("what is capital of india?");
 
 const httpServer = http.createServer(app);
 
