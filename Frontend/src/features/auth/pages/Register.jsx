@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router'
+import { useAuth } from '../hook/useAuth'
 
 const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const submitForm = (event) => {
+  const { handleRegister } = useAuth()
+
+  const submitForm =async (event) => {
     event.preventDefault()
 
+    
     const payload = {
       username,
       email,
       password,
     }
+    await handleRegister(payload)
 
     console.log('Register payload:', payload)
   }
