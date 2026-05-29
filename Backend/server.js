@@ -6,7 +6,7 @@ import {generateResponse} from './src/services/ai.service.js';
 import { initSocket } from './src/sockets/server.socket.js';
 const PORT = process.env.PORT ||3000;
 
-generateResponse("what is capital of india?");
+
 
 const httpServer = http.createServer(app);
 

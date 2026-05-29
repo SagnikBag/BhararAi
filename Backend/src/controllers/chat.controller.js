@@ -1,5 +1,4 @@
-import { AIMessage } from 'langchain';
-import {generateResponse} from '../services/ai.service.js';
+import {generateResponse,generateChatTitle} from '../services/ai.service.js';
 
 
 
@@ -9,7 +8,12 @@ export async function sendMessage(req,res){
 
     const result =  await generateResponse(message);
 
+    const title = await generateChatTitle(message);
+
+    console.log("Generated Title:", title);
+
     res.json({
-        AIMessage: result
+        aiMessage: result,
+        title
     })
 }
