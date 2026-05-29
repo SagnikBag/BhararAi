@@ -1,4 +1,5 @@
 import {generateResponse,generateChatTitle} from '../services/ai.service.js';
+import ChatModel from '../models/chat.model.js';
 
 
 
@@ -12,7 +13,11 @@ export async function sendMessage(req,res){
 
     const result =  await generateResponse(message);
 
-   
+   const chat = await ChatModel.create([
+    user: req.user._id,
+    title,
+
+   ])
 
   
 
