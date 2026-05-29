@@ -15,7 +15,7 @@ const mistralModel = new ChatMistralAI({
 }) 
 
 export async function generateResponse(message){
-    //  console.log( message);
+  
 
    const response = await geminiModel.invoke([
     new HumanMessage( message )
@@ -26,7 +26,7 @@ export async function generateResponse(message){
 }
 
 export async function generateChatTitle(message){
-// /  console.log( message);
+
 
   const response = await mistralModel.invoke([
     new SystemMessage(`You are a helpful assistant that generates a concise title for a conversation based on the following message.
