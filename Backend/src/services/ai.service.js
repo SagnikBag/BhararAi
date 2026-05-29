@@ -3,8 +3,9 @@ import {ChatMistralAI} from "@langchain/mistralai";
 import { HumanMessage,SystemMessage } from "langchain";
 
 const geminiModel = new ChatGoogleGenerativeAI({
-  model: "gemini-2.5-flash-lite",
+  model: "gemini-1.5-flash",
   apiKey: process.env.GEMINI_API_KEY,
+    maxRetries: 1
 });
 
 const mistralModel = new ChatMistralAI({
@@ -14,7 +15,7 @@ const mistralModel = new ChatMistralAI({
 }) 
 
 export async function generateResponse(message){
-     console.log("MESSAGE:", message);
+    //  console.log( message);
 
    const response = await geminiModel.invoke([
     new HumanMessage( message )
@@ -25,7 +26,7 @@ export async function generateResponse(message){
 }
 
 export async function generateChatTitle(message){
-  console.log("MESSAGE:", message);
+// /  console.log( message);
 
   const response = await mistralModel.invoke([
     new SystemMessage(`You are a helpful assistant that generates a concise title for a conversation based on the following message.
