@@ -1,5 +1,6 @@
 import {generateResponse,generateChatTitle} from '../services/ai.service.js';
 import ChatModel from '../models/chat.model.js';
+import messageModel from '../models/message.model.js';
 
 
 
@@ -13,16 +14,21 @@ export async function sendMessage(req,res){
 
     const result =  await generateResponse(message);
 
-   const chat = await ChatModel.create([
-    user: req.user._id,
-    title,
-
-   ])
-
+    const chat  = await ChatModel.create({
+    user: req.user_id,
+    title
+   })
+   
+    const aiMessage = await messageModel.create({
+     chat: chat._id,
+     content: result,
+     role: "ai"
+   })
   
 
     res.json({
-        aiMessage: result,
-        title
+        title,
+        chat,
+        aiMessage
     })
 }
