@@ -15,7 +15,7 @@ export async function sendMessage(req,res){
     const result =  await generateResponse(message);
 
     const chat  = await ChatModel.create({
-    user: req.user_id,
+    user: req.user.id,
     title
    })
    
@@ -26,7 +26,7 @@ export async function sendMessage(req,res){
    })
   
 
-    res.json({
+    res.status(201).json({
         title,
         chat,
         aiMessage
