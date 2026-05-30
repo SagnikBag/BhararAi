@@ -18,7 +18,7 @@ export async function generateResponse(messages){
   
 
    const response = await geminiModel.invoke([
-    new HumanMessage( message )
+    new HumanMessage( messages )
    ])
 
    
