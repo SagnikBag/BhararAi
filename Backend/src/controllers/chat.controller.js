@@ -24,21 +24,28 @@ if(!chatId){
         content: message,
         role: "user"
     })
-//     const aiMessage = await messageModel.create({
-//      chat: chat._id,
-//      content: result,
-//      role: "ai"
-//    })
 
-    const messages = await messageModel.findOne({chat: chatId})
+    const messages = await messageModel.find({chat: chatId})
 
-        const result =  await generateResponse(messages);
+    const result =  await generateResponse(messages);
 
-//    
+    
+
+    const aiMessage = await messageModel.create({
+     chat: chatId ||chat._id,
+     content: result,
+     role: "ai"
+   })
+
+    
+       
+
+  
 console.log(messages);
-//     res.status(201).json({
-//         title,
-//         chat,
-//         aiMessage
-//     })
- }
+    res.status(201).json({
+        title,
+        chat,
+        aiMessage
+    })
+}
+
