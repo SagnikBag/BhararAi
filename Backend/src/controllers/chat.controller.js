@@ -8,8 +8,7 @@ import chatModel from '../models/chat.model.js';
 export async function sendMessage(req,res){
 
     const { message , chat: chatId} = req.body;
-
-
+    
     let title = null, chat = null;
 
 if(!chatId){
