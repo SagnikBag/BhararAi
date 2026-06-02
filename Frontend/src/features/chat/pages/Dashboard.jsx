@@ -44,7 +44,7 @@ const Dashboard = () => {
             {Object.values(chats).map((chat,index) => (
               <button
                 onClick={()=>{openChat(chat.id)}}
-                key={index}
+                key={chat.id}
                 type='button'
                 className='w-full cursor-pointer rounded-xl border border-white/60 bg-transparent px-3 py-2 text-left text-base font-medium text-white/90 transition hover:border-white hover:text-white'
               >
@@ -57,9 +57,9 @@ const Dashboard = () => {
         <section className='relative max-w-3/5 mx-auto flex h-full min-w-0 flex-1 flex-col gap-4'>
 
           <div className='messages flex-1 space-y-3 overflow-y-auto pr-1 pb-30'>
-            {chats[ currentChatId ]?.messages.map((message) => (
+            {chats[ currentChatId ]?.messages.map((message, index) => (
               <div
-                key={message.id}
+                key={index}
                 className={`max-w-[82%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${message.role === 'user'
                     ? 'ml-auto rounded-br-none bg-white/12 text-white'
                     : 'mr-auto border-none text-white/90'
