@@ -1,7 +1,7 @@
 import {initializeSocketConnection} from "../service/chat.socket.js";
 import {sendMessage,getChats,getMessages,deleteChat} from "../service/chat.api.js";
 import {useDispatch} from "react-redux";
-import {setChats,setCurrentChatId,setError,setLoading} from "../chat.slice.js";
+import {setChats,setCurrentChatId,setError,setLoading,createNewChat,addNewMessage} from "../chat.slice.js";
 
 export const useChat = () =>{
     const dispatch = useDispatch();
@@ -10,6 +10,10 @@ export const useChat = () =>{
         dispatch(setLoading(true));
         const data = await sendMessage({message,chatId})
         const {chat,aiMessage} = data;
+        dispatch(createNewChat({
+            chatId:chat._id,
+            title:chat.title
+        }))
         dispatch(setChats((prev)=>{
             return {...prev,
                 [chat._id]:{
@@ -18,6 +22,17 @@ export const useChat = () =>{
                 }
             }
         }))
+     dispatch(addNewMessage({
+        chatId:chat._id,
+        content:message,
+        role:"user"
+     }))
+
+    dispatch(addNewMessage({
+        chatId:chat,_id,
+        content:aiMessage.content,
+        role:"assistant"
+    })) 
         dispatch(setCurrentChatId(chat._id))
            
     }

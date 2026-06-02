@@ -8,6 +8,8 @@ import remarkGfm from 'remark-gfm'
 const Dashboard = () => {
   const chat = useChat()
   const [ chatInput, setChatInput ] = useState('')
+
+  
   const chats = useSelector((state) => state.chat.chats)
   const currentChatId = useSelector((state) => state.chat.currentChatId)
 
