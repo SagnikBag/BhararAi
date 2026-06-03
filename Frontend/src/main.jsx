@@ -4,9 +4,12 @@ import './app/index.css'
 import App from './app/App.jsx'
 import { store } from './app/app.store'
 import {Provider} from 'react-redux'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 createRoot(document.getElementById('root')).render(
     <Provider store={store}>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </Provider>
 )
