@@ -20,7 +20,7 @@ const Dashboard = () => {
 
   const handleSubmitMessage = (event) => {
     event.preventDefault()
-
+ 
     const trimmedMessage = chatInput.trim()
     if (!trimmedMessage) {
       return

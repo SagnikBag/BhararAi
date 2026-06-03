@@ -10,7 +10,7 @@ export const useChat = () =>{
         dispatch(setLoading(true));
         const data = await sendMessage({message,chatId})
         const {chat,aiMessage} = data;
-        if(!chatId){}
+        if(!chatId)
         dispatch(createNewChat({
             chatId:chat._id,
             title:chat.title
@@ -46,6 +46,8 @@ export const useChat = () =>{
         }, {})))
     }
     async function handleOpenChat(chatId,chats){
+
+        if(chats[chatId]?.messages.length===0){
         const data = await getMessages(chatId)
         const {messages} = data;
 
@@ -57,6 +59,7 @@ export const useChat = () =>{
             chatId,
             messages:formattedMessages
         }))
+    }
         dispatch(setCurrentChatId(chatId))
     }
 
