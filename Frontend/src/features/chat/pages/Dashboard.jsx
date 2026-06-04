@@ -36,8 +36,8 @@ const Dashboard = () => {
 
   return (
     <main className='min-h-screen w-full bg-[#07090f] p-3 text-white md:p-5'>
-      <section className='mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none'>
-        <aside className='hidden h-full w-72 shrink-0 rounded-3xl border  bg-[#080b12] p-4 md:flex md:flex-col'>
+      <section className='mx-auto flex h-full w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none'>
+        {/* <aside className='hidden h-full w-72  fit-content shrink-0 rounded-3xl border  bg-[#080b12] p-4 md:flex md:flex-col'>
           <h1 className='mb-5 text-3xl font-semibold tracking-tight'>Perplexity</h1>
 
           <div className='space-y-2'>
@@ -52,7 +52,30 @@ const Dashboard = () => {
               </button>
             ))}
           </div>
-        </aside>
+        </aside> */}
+
+<aside className='custom-scrollbar hidden h-ful w-72 shrink-0 overflow-y-auto rounded-3xl border bg-[#080b12] p-4 md:flex md:flex-col'>
+  
+  {/* Header */}
+  <h1 className='mb-5 text-3xl font-semibold tracking-tight'>
+   BharatAI
+  </h1>
+
+  {/* Scrollable Chat List */}
+  <div className='flex-1 space-y-2 overflow-y-auto pr-1'>
+    {Object.values(chats).map((chat) => (
+      <button
+        onClick={() => openChat(chat.id)}
+        key={chat.id}
+        type='button'
+        className='w-full cursor-pointer rounded-xl border border-white/60 bg-transparent px-3 py-2 text-left text-base font-medium text-white/90 transition hover:border-white hover:text-white'
+      >
+        {chat.title}
+      </button>
+    ))}
+  </div>
+
+</aside>
 
         <section className='relative max-w-3/5 mx-auto flex h-full min-w-0 flex-1 flex-col gap-4'>
 

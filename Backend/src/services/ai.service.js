@@ -24,7 +24,7 @@ const searchInernetTool = tool(
   }
 )
 const agent = createAgent({
-  model:mistralModel,
+  model:geminiModel,
   tools:[searchInernetTool]
 })
 export async function generateResponse(messages){
@@ -32,13 +32,11 @@ export async function generateResponse(messages){
 console.log(messages)
 
    const response = await agent.invoke({
-    messages:[[
+    messages:[
     new SystemMessage(`You are a helpful assistant that provides accurate and concise answers to user queries.
        You can use the searchInternet tool to get the latest information from the internet if needed.
        If you don't know the answer, say you don't know. Always try to provide a helpful response based on the information you have and the tools available to you.
        If the question requires up-to-date information, use the searchInternet tool to fetch the latest data before responding.`),
-    ],
-    
     
     ...(messages.map(msg=>{ 
     if(msg.role == "user"){
@@ -50,7 +48,7 @@ console.log(messages)
      
    }))]
    });
-  return response.messages[response.messages.length - 1].text;
+  return response.content || response.messages[response.messages.length - 1].text;
 }
 export async function generateChatTitle(message){
 

@@ -7,24 +7,10 @@ export const useChat = () =>{
     const dispatch = useDispatch();
 
     async function handleSendMessage({message,chatId}){
-        
             dispatch(setLoading(true));
             const data = await sendMessage({message,chatId})
-            
-            if(!data) {
-                dispatch(setError("Failed to send message: No response from server"));
-                dispatch(setLoading(false));
-                return;
-            }
-            
             const {chat,aiMessage} = data;
-            
-            if(!chat) {
-                dispatch(setError("Failed to send message: Invalid server response"));
-                dispatch(setLoading(false));
-                return;
-            }
-            
+
             if(!chatId)
             dispatch(createNewChat({
                 chatId:chat._id,
@@ -36,13 +22,13 @@ export const useChat = () =>{
             role:"user"
          }))
 
-           if(aiMessage) {
+           
                dispatch(addNewMessage({
                 chatId: chatId || chat._id,
                 content:aiMessage.content,
-                role:"assistant"
+                role:aiMessage.role
             })) 
-           }
+           
             
             dispatch(setCurrentChatId(chat._id))
             dispatch(setLoading(false));

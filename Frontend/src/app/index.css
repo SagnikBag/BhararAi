@@ -2,4 +2,34 @@
 
   .messages::-webkit-scrollbar{
     display: none;
+    
   }
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.18) transparent;
+}
+
+/* Chrome, Edge, Safari */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+/* Show only on hover */
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.18);
+}
+
+/* Slightly brighter while scrolling/hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.28);
+}

@@ -39,7 +39,7 @@ if(!chatId){
     res.status(201).json({
         title,
         chat,
-        aiMessage:result
+        aiMessage
     })
 }
 export async function getChats(req,res){
