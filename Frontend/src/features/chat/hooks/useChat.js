@@ -7,27 +7,49 @@ export const useChat = () =>{
     const dispatch = useDispatch();
 
     async function handleSendMessage({message,chatId}){
-        dispatch(setLoading(true));
-        const data = await sendMessage({message,chatId})
-        const {chat,aiMessage} = data;
-        if(!chatId)
-        dispatch(createNewChat({
-            chatId:chat._id,
-            title:chat.title
-        }))
-       dispatch(addNewMessage({
-        chatId: chatId ||chat._id,
-        content:message,
-        role:"user"
-     }))
+        try {
+            dispatch(setLoading(true));
+            const data = await sendMessage({message,chatId})
+            
+            if(!data) {
+                dispatch(setError("Failed to send message: No response from server"));
+                dispatch(setLoading(false));
+                return;
+            }
+            
+            const {chat,aiMessage} = data;
+            
+            if(!chat) {
+                dispatch(setError("Failed to send message: Invalid server response"));
+                dispatch(setLoading(false));
+                return;
+            }
+            
+            if(!chatId)
+            dispatch(createNewChat({
+                chatId:chat._id,
+                title:chat.title
+            }))
+           dispatch(addNewMessage({
+            chatId: chatId ||chat._id,
+            content:message,
+            role:"user"
+         }))
 
-       dispatch(addNewMessage({
-        chatId: chatId || chat._id,
-        content:aiMessage.content,
-        role:"assistant"
-    })) 
-        dispatch(setCurrentChatId(chat._id))
-           
+           if(aiMessage) {
+               dispatch(addNewMessage({
+                chatId: chatId || chat._id,
+                content:aiMessage.content,
+                role:"assistant"
+            })) 
+           }
+            
+            dispatch(setCurrentChatId(chat._id))
+            dispatch(setLoading(false));
+        } catch (error) {
+            dispatch(setError(error.message || "Failed to send message"));
+            dispatch(setLoading(false));
+        }
     }
 
     async function handleGetChats(){

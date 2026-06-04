@@ -5,8 +5,9 @@ const tavily = Tavily({
 })
 
 export const searchInternet = async (query)=>{
-    return await tavily.search(query,{
+    const results =  await tavily.search(query,{
         maxResults:5,
         searchDepth: "advanced",
     })
+    return JSON.stringify(results);
 }
