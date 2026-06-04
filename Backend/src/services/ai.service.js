@@ -9,7 +9,6 @@ const geminiModel = new ChatGoogleGenerativeAI({
   apiKey: process.env.GEMINI_API_KEY,
     maxRetries: 1
 });
-
 const mistralModel = new ChatMistralAI({
   model:"mistral-small-latest",
   apiKey:process.env.MISTRAL_API_KEY
@@ -25,7 +24,7 @@ const searchInernetTool = tool(
   }
 )
 const agent = createAgent({
-  model:geminiModel,
+  model:mistralModel,
   tools:[searchInernetTool]
 })
 export async function generateResponse(messages){
@@ -33,7 +32,15 @@ export async function generateResponse(messages){
 console.log(messages)
 
    const response = await agent.invoke({
-    messages:messages.map(msg=>{
+    messages:[[
+    new SystemMessage(`You are a helpful assistant that provides accurate and concise answers to user queries.
+       You can use the searchInternet tool to get the latest information from the internet if needed.
+       If you don't know the answer, say you don't know. Always try to provide a helpful response based on the information you have and the tools available to you.
+       If the question requires up-to-date information, use the searchInternet tool to fetch the latest data before responding.`),
+    ],
+    
+    
+    ...(messages.map(msg=>{ 
     if(msg.role == "user"){
        return new HumanMessage(msg.content)
     }
@@ -41,11 +48,10 @@ console.log(messages)
       return new AIMessage(msg.content)
     }
      
-   })
+   }))]
    });
   return response.messages[response.messages.length - 1].text;
 }
-
 export async function generateChatTitle(message){
 
 

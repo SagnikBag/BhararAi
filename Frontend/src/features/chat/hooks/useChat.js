@@ -7,7 +7,7 @@ export const useChat = () =>{
     const dispatch = useDispatch();
 
     async function handleSendMessage({message,chatId}){
-        try {
+        
             dispatch(setLoading(true));
             const data = await sendMessage({message,chatId})
             
@@ -46,10 +46,7 @@ export const useChat = () =>{
             
             dispatch(setCurrentChatId(chat._id))
             dispatch(setLoading(false));
-        } catch (error) {
-            dispatch(setError(error.message || "Failed to send message"));
-            dispatch(setLoading(false));
-        }
+        
     }
 
     async function handleGetChats(){
