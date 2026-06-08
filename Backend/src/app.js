@@ -17,6 +17,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }))
 
+app.use(express.static('./public'));
 //Home route
 app.get('/',(req,res)=>{
     res.json({message:'Welcome to the BharatAi'})
