@@ -168,7 +168,7 @@ export async function verifyEmail(req,res){
     <p>Thank you for verifying your email address. Your account is now active.</p>
     <p>You can now log in to your account and start using our services.</p>
     <p>Best regards,<br/>The BHARATAI Team</p> 
-    <a href="http://localhost:3000/login">Login to BHARATAI</a>`
+    <a href="http://localhost:5173/login">Go to login</a>`
 
    return res.send(html)
 }catch(err){

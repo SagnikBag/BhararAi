@@ -1,26 +1,29 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { useAuth } from '../hook/useAuth'
+import { useSelector } from 'react-redux'
 
 const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const navigate = useNavigate()
+  
   const { handleRegister } = useAuth()
+  const error = useSelector((state) => state.auth.error)
+  const loading = useSelector((state) => state.auth.loading)
 
-  const submitForm =async (event) => {
+  const submitForm = async (event) => {
     event.preventDefault()
 
-    
     const payload = {
       username,
       email,
       password,
     }
-    await handleRegister(payload)
-
-    console.log('Register payload:', payload)
+    const result = await handleRegister(payload)
+    
+    
   }
 
   return (
@@ -33,6 +36,12 @@ const Register = () => {
           <p className="mt-2 text-sm text-zinc-300">
             Register with your username, email, and password.
           </p>
+
+          {error && (
+            <div className="mt-4 rounded-lg bg-red-500/20 p-4 text-sm text-red-300 border border-red-500/30">
+              {error}
+            </div>
+          )}
 
           <form onSubmit={submitForm} className="mt-8 space-y-5">
             <div>
@@ -82,9 +91,10 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full rounded-lg bg-[#31b8c6] px-4 py-3 font-semibold text-zinc-950 transition hover:bg-[#45c7d4] focus:outline-none focus:shadow-[0_0_0_3px_rgba(49,184,198,0.35)]"
+              disabled={loading}
+              className="w-full rounded-lg bg-[#31b8c6] px-4 py-3 font-semibold text-zinc-950 transition hover:bg-[#45c7d4] focus:outline-none focus:shadow-[0_0_0_3px_rgba(49,184,198,0.35)] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Register
+              {loading ? 'Registering...' : 'Register'}
             </button>
           </form>
 
