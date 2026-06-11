@@ -76,6 +76,6 @@ export const useChat = () =>{
         initializeSocketConnection,
         handleSendMessage,
         handleGetChats,
-       handleOpenChat
+        handleOpenChat
     }
 }
