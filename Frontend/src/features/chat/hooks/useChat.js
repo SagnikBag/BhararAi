@@ -11,6 +11,8 @@ export const useChat = () =>{
             const data = await sendMessage({message,chatId})
             const {chat,aiMessage} = data;
 
+            console.log("Chat data:", chat);
+
             if(!chatId)
             dispatch(createNewChat({
                 chatId:chat._id,
@@ -30,7 +32,7 @@ export const useChat = () =>{
             })) 
            
             
-            dispatch(setCurrentChatId(chat._id))
+            dispatch(setCurrentChatId(chat._id || chatId));
             dispatch(setLoading(false));
         
     }

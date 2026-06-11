@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useAuth } from '../hook/useAuth'
 import { useSelector } from 'react-redux'
+import toast from "react-hot-toast";
+
 
 const Register = () => {
   const [username, setUsername] = useState('')
@@ -15,7 +17,7 @@ const Register = () => {
 
   const submitForm = async (event) => {
     event.preventDefault()
-
+   
     const payload = {
       username,
       email,
@@ -23,7 +25,9 @@ const Register = () => {
     }
     const result = await handleRegister(payload)
     
-    
+    toast.success(
+   "Verification link sent to your email"
+)
   }
 
   return (

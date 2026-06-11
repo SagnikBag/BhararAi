@@ -7,9 +7,20 @@ function App(){
 
   const auth = useAuth()
 
+  // useEffect(() => {
+  //   auth.handleGetme()
+  // },[])
   useEffect(() => {
-    auth.handleGetme()
-  },[])
+  const init = async () => {
+    try {
+      await auth.handleGetme();
+    } catch (err) {
+      // Ignore 401
+    }
+  };
+
+  init();
+}, []);
 
   return (
     <RouterProvider router={router} />
