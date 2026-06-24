@@ -18,14 +18,26 @@ transporter.verify()
 .catch((err)=>{console.log("Email transporter verification failed:",err);
 })
 
-export async function sendEmail({to,subject,html}){
-    const mailOptions={
-        from: process.env.GOOGLE_USER,
-        to,
-        subject,
-        html
-    };
-    const details = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", details);
+// export async function sendEmail({to,subject,html}){
+//     const mailOptions={
+//         from: process.env.GOOGLE_USER,
+//         to,
+//         subject,
+//         html
+//     };
+//     const details = await transporter.sendMail(mailOptions);
+//     console.log("Email sent:", details);
     
-}
+// }
+
+export async function sendEmail({ to, subject, html }) {
+       const mailOptions = { from: process.env.GOOGLE_USER, to, subject, html };
+       try {
+           const details = await transporter.sendMail(mailOptions);
+           console.log("Email sent:", details.messageId);
+           return details;
+       } catch (err) {
+           console.error("Failed to send email:", err);
+           throw err;  
+       }
+   }
