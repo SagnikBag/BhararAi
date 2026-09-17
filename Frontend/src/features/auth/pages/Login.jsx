@@ -42,7 +42,7 @@ const Login = () => {
                         Welcome Back to <span className="text-zinc-100">Bharatai</span>
                     </h1>
                     <p className="mt-2 text-sm text-zinc-300">
-                        Sign in with your email and password
+                        Sign in with your email and password.
                     </p>
 
                     <form onSubmit={submitForm} className="mt-8 space-y-5">
